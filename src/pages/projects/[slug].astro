@@ -1,0 +1,144 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Timeline from "../../components/Timeline.astro";
+import { getProjects } from "../../lib/projects";
+import { categories, contentLabels } from "../../data/categories";
+export async function getStaticPaths() {
+  return (await getProjects())
+    .filter((p) => p.data.display === "case-study")
+    .map((project) => ({
+      params: { slug: project.data.slug },
+      props: { project },
+    }));
+}
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+const { project } = Astro.props;
+const p = project.data;
+const { Content, headings } = await render(project);
+const category = categories.find((c) => c.id === p.category)!;
+const toc = headings.filter((h) => h.depth === 2);
+if (p.showTimeline)
+  toc.push({ depth: 2, slug: "iteration-timeline", text: "评测与迭代" });
+const showToc = p.contentStatus !== "placeholder" && toc.length >= 4;
+---
+
+<BaseLayout
+  title={p.title}
+  description={
+    p.summary ?? `${p.title}，${category.name}项目案例。项目详细内容待补充。`
+  }
+>
+  <header class="case-heading">
+    <a class="back-link" href={`/projects/#${category.id}`}>
+      ← 返回{category.name}
+    </a>
+    <div class="case-label">
+      <span>
+        {category.number} / {category.name}
+      </span>
+      <span class="status-badge">{contentLabels[p.contentStatus]}</span>
+    </div>
+    <h1>{p.title}</h1>
+    {p.summary && <p class="case-summary">{p.summary}</p>}
+    {(p.role || p.period || p.projectStatus) && (
+      <dl class="project-facts">
+        {p.role && (
+          <div>
+            <dt>我的职责</dt>
+            <dd>{p.role}</dd>
+          </div>
+        )}
+        {p.period && (
+          <div>
+            <dt>项目周期</dt>
+            <dd>{p.period}</dd>
+          </div>
+        )}
+        {p.projectStatus && (
+          <div>
+            <dt>项目进展</dt>
+            <dd>{p.projectStatus}</dd>
+          </div>
+        )}
+      </dl>
+    )}
+    {p.technologies.length > 0 && (
+      <ul class="tags">
+        {p.technologies.map((tag) => (
+          <li>{tag}</li>
+        ))}
+      </ul>
+    )}
+    {p.links.length > 0 && (
+      <div class="project-links">
+        {p.links.map((link) => (
+          <a class="text-link" href={link.url} target="_blank" rel="noopener">
+            {link.label} ↗
+          </a>
+        ))}
+      </div>
+    )}
+  </header>
+  {p.contentStatus === "placeholder" && (
+    <aside class="content-notice">
+      <span class="small-dot" aria-hidden="true"></span>
+      <p>案例内容待补充。此页保留项目介绍与后续记录的入口。</p>
+    </aside>
+  )}
+  {p.cover && (
+    <figure class="case-cover">
+      <img src={p.cover.src} alt={p.cover.alt} width="1120" height="630" />
+    </figure>
+  )}
+  <div class:list={["case-layout", { "with-toc": showToc }]}>
+    {showToc && (
+      <aside class="case-toc">
+        <details open>
+          <summary>本页目录</summary>
+          <nav aria-label="案例目录">
+            {toc.map((h) => (
+              <a href={`#${h.slug}`}>{h.text}</a>
+            ))}
+          </nav>
+        </details>
+      </aside>
+    )}
+    <article class="case-body prose">
+      <Content />
+      {p.showTimeline && <Timeline iterations={p.iterations} />}
+      {p.media.map((media) => (
+        <figure>
+          {media.type === "image" ? (
+            <img src={media.src} alt={media.alt} loading="lazy" />
+          ) : (
+            <video
+              controls
+              preload="metadata"
+              poster={media.poster}
+              aria-label={media.alt}
+            >
+              <source src={media.src} />
+              <a href={media.src}>下载视频：{media.alt}</a>
+            </video>
+          )}
+          {media.caption && <figcaption>{media.caption}</figcaption>}
+        </figure>
+      ))}
+    </article>
+  </div>
+  <div class="home-closing">
+    <p>继续浏览</p>
+    <a class="text-link" href="/projects/">
+      全部项目 ↗
+    </a>
+  </div>
+</BaseLayout>
+<script>
+  const details =
+    document.querySelector<HTMLDetailsElement>(".case-toc details");
+  if (details && window.matchMedia("(max-width: 640px)").matches)
+    details.open = false;
+</script>

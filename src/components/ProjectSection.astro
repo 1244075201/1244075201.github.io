@@ -1,0 +1,30 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { categories } from "../data/categories";
+import ProjectCard from "./ProjectCard.astro";
+interface Props {
+  category: (typeof categories)[number];
+  projects: CollectionEntry<"projects">[];
+  compact?: boolean;
+}
+const { category, projects, compact = false } = Astro.props;
+---
+
+<section
+  id={category.id}
+  class:list={["project-section", { "secondary-section": compact }]}
+  aria-labelledby={`heading-${category.id}`}
+>
+  <div class="section-heading">
+    <div>
+      <span class="section-number">{category.number}</span>
+      <h2 id={`heading-${category.id}`}>{category.name}</h2>
+    </div>
+    <p>{category.description}</p>
+  </div>
+  <div class:list={["project-grid", { "compact-grid": compact }]}>
+    {projects.map((project) => (
+      <ProjectCard project={project} compact={compact} />
+    ))}
+  </div>
+</section>

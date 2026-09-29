@@ -1,0 +1,34 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProjectSection from "../../components/ProjectSection.astro";
+import { categories } from "../../data/categories";
+import { getProjects } from "../../lib/projects";
+const projects = await getProjects();
+---
+
+<BaseLayout
+  title="全部项目"
+  description="浏览 AI 与 Agent、游戏与交互、产品实验室三个方向的项目与案例。"
+>
+  <header class="page-heading">
+    <p class="eyebrow">PROJECTS / 项目</p>
+    <h1>
+      项目与实践<span class="title-dot">.</span>
+    </h1>
+    <p>AI 与 Agent、游戏与交互，以及从真实问题出发的产品实验。</p>
+  </header>
+  <nav class="category-nav" aria-label="项目分类">
+    {categories.map((c) => (
+      <a href={`#${c.id}`}>
+        <span>{c.number}</span>
+        {c.name}
+      </a>
+    ))}
+  </nav>
+  {categories.map((category) => (
+    <ProjectSection
+      category={category}
+      projects={projects.filter((p) => p.data.category === category.id)}
+    />
+  ))}
+</BaseLayout>

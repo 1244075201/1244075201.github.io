@@ -1,0 +1,42 @@
+---
+import type { CollectionEntry } from "astro:content";
+interface Props {
+  iterations: CollectionEntry<"projects">["data"]["iterations"];
+}
+const { iterations } = Astro.props;
+const fields = [
+  { key: "problem", label: "发现的问题" },
+  { key: "evidence", label: "评测依据" },
+  { key: "change", label: "本轮修改" },
+  { key: "result", label: "复测结果" },
+  { key: "next", label: "下一步" },
+] as const;
+---
+
+<section class="timeline-section" aria-labelledby="iteration-timeline">
+  <h2 id="iteration-timeline">评测与迭代</h2>
+  {iterations.length ? (
+    <ol class="timeline">
+      {iterations.map((item) => (
+        <li>
+          <h3>{item.version}</h3>
+          <dl>
+            {fields.map(
+              ({ key, label }) =>
+                item[key] && (
+                  <div>
+                    <dt>{label}</dt>
+                    <dd>{item[key]}</dd>
+                  </div>
+                ),
+            )}
+          </dl>
+        </li>
+      ))}
+    </ol>
+  ) : (
+    <p class="placeholder-copy">
+      迭代记录待补充。后续将展示问题发现、评测依据、架构修改与复测结果。
+    </p>
+  )}
+</section>

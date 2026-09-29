@@ -1,0 +1,56 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ResumeLink from "../components/ResumeLink.astro";
+import { profile } from "../data/profile";
+---
+
+<BaseLayout
+  title="关于我"
+  description="个人基本信息、个人介绍、GitHub 与简历入口。"
+>
+  <header class="page-heading">
+    <p class="eyebrow">ABOUT / 关于我</p>
+    <h1>
+      {profile.name ?? "姓名待补充"}
+      <span class="title-dot">.</span>
+    </h1>
+    <p>{profile.introduction ?? "个人介绍待补充"}</p>
+  </header>
+  <div class="about-grid">
+    <section class="info-section">
+      <h2>基本信息</h2>
+      {profile.basics.length ? (
+        <ul>
+          {profile.basics.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      ) : (
+        <p class="placeholder-copy">基本信息待补充</p>
+      )}
+    </section>
+    <section class="info-section">
+      <h2>简历与链接</h2>
+      <div class="about-links">
+        <a
+          class="text-link"
+          href={profile.github}
+          target="_blank"
+          rel="noopener"
+        >
+          GitHub ↗
+        </a>
+        <ResumeLink />
+        {profile.email && (
+          <a href={`mailto:${profile.email}`}>{profile.email}</a>
+        )}
+      </div>
+    </section>
+  </div>
+  <div class="home-closing">
+    <p>通过项目了解更多</p>
+    <a class="text-link" href="/projects/">
+      查看全部项目 ↗
+    </a>
+  </div>
+</BaseLayout>

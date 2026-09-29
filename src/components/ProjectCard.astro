@@ -1,0 +1,63 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { contentLabels } from "../data/categories";
+interface Props {
+  project: CollectionEntry<"projects">;
+  compact?: boolean;
+}
+const { project, compact = false } = Astro.props;
+const p = project.data;
+const href = p.display === "case-study" ? `/projects/${p.slug}/` : undefined;
+---
+
+<article class:list={["project-card", { compact }]}>
+  <div class="project-cover">
+    {p.cover ? (
+      <img
+        src={p.cover.src}
+        alt={p.cover.alt}
+        loading="lazy"
+        width="960"
+        height="540"
+      />
+    ) : (
+      <div class="cover-placeholder">
+        <span class="cover-label">
+          {p.category === "ai"
+            ? "AI / AGENT"
+            : p.category === "games"
+              ? "GAME / INTERACTION"
+              : "PRODUCT / LAB"}
+        </span>
+        <span class="cover-name" aria-hidden="true">
+          {p.title}
+        </span>
+        <span class="cover-note">项目素材待补充</span>
+      </div>
+    )}
+  </div>
+  <div class="card-body">
+    <div class="card-meta">
+      <span>{contentLabels[p.contentStatus]}</span>
+      {p.projectStatus && <span>{p.projectStatus}</span>}
+    </div>
+    <h3>
+      {href ? (
+        <a href={href}>
+          {p.title}
+          <span class="card-arrow" aria-hidden="true">
+            ↗
+          </span>
+        </a>
+      ) : (
+        p.title
+      )}
+    </h3>
+    {p.summary && <p>{p.summary}</p>}
+    {href && (
+      <span class="card-cta" aria-hidden="true">
+        查看项目 <span>→</span>
+      </span>
+    )}
+  </div>
+</article>
