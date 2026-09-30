@@ -8,7 +8,7 @@ import { getProjects } from "../lib/projects";
 const projects = await getProjects();
 ---
 
-<BaseLayout title="首页">
+<BaseLayout title="首页" description={profile.introduction}>
   <section class="hero" aria-labelledby="intro-title">
     <div class="hero-main">
       <p class="eyebrow">
@@ -21,12 +21,18 @@ const projects = await getProjects();
           .
         </span>
       </h1>
+      <p class="profile-english" lang="en">
+        {profile.englishName}
+      </p>
       <p class="hero-introduction">
         {profile.introduction ?? "个人介绍待补充"}
       </p>
-      <p class="profile-basics">
-        {profile.basics.length ? profile.basics.join(" · ") : "基本信息待补充"}
-      </p>
+      <p class="profile-approach">{profile.approach}</p>
+      <ul class="profile-highlights" aria-label="核心能力概括">
+        {profile.highlights.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
       <div class="hero-actions">
         <a class="button" href="/projects/">
           查看项目 <span aria-hidden="true">↗</span>

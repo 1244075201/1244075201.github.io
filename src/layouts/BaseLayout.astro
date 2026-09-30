@@ -25,7 +25,7 @@ const nav = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title} · 个人作品集</title>
+    <title>{title} · {profile.name ? `${profile.name}的作品集` : "个人作品集"}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={new URL(path, Astro.site)} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
