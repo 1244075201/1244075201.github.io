@@ -9,6 +9,14 @@ interface Profile {
   github: string;
   resume?: string;
   email?: string;
+  phone?: string;
+  wechat?: string;
+  education: {
+    school: string;
+    major: string;
+    degree: string;
+    period: string;
+  }[];
 }
 
 export const profile: Profile = {
@@ -54,4 +62,21 @@ export const profile: Profile = {
   ],
   github: "https://github.com/1244075201",
   resume: "/resume.pdf",
+  email: "1244075201@qq.com",
+  phone: "13716878579",
+  wechat: "Shulun0912",
+  education: [
+    {
+      school: "伦敦大学学院",
+      major: "计算机图形学、视觉与成像",
+      degree: "硕士",
+      period: "2025.09 — 2026.12（预计）",
+    },
+    {
+      school: "北京林业大学",
+      major: "数字媒体技术",
+      degree: "学士",
+      period: "2021.09 — 2025.06",
+    },
+  ],
 };

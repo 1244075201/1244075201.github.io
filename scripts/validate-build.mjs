@@ -94,7 +94,7 @@ for (const file of htmlFiles) {
       references.push(["", "src", value.trim().split(/\s+/)[0]]);
   }
   for (const [, attr, url] of references) {
-    if (/^(https?:|mailto:|data:)/.test(url)) continue;
+    if (/^(https?:|mailto:|tel:|data:)/.test(url)) continue;
     const [rawPath, fragment] = url.split("#");
     const pathname = decodeURIComponent(rawPath.split("?")[0]);
     let target = !pathname

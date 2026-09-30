@@ -27,7 +27,7 @@ npm.cmd run dev
 
 ## 更新个人资料
 
-编辑 `src/data/profile.ts` 的 name、englishName、introduction、approach、about、highlights、capabilities、email、resume，只录入确认公开的信息。不设置目标岗位标签。真实简历放到 `public/resume.pdf` 并设置 `resume: '/resume.pdf'`；缺失时保留状态文字，不创建占位 PDF。
+编辑 `src/data/profile.ts` 的 name、englishName、introduction、approach、about、highlights、capabilities、education、phone、email、wechat、resume，只录入确认公开的信息。不设置目标岗位标签。真实简历放到 `public/resume.pdf` 并设置 `resume: '/resume.pdf'`；缺失时保留状态文字，不创建占位 PDF。
 
 ## 新增项目或主题
 
@@ -85,4 +85,4 @@ NPC 环境来源必须保留 Generative Agents / Smallville 及 Park et al., 202
 
 仓库 `1244075201/1244075201.github.io` 使用 main 分支。GitHub Pages Source 为 GitHub Actions；推送后依次 npm ci → 类型检查 → 构建校验 → 上传 dist → Pages 发布。无需个人 Token，不提交 dist。发布后实测页面、图片和视频 Range 请求，不仅查看工作流状态。回滚使用 git revert 并推送。
 
-姓名、个人定位与能力分组集中维护在个人配置中。详细教育、实习等履历仅通过简历 PDF 提供，不复制到网页。Email 未提供时隐藏。NPC 原始评测输出、完整 TFT 逐类记录和工作台长期使用反馈仍待补充。
+姓名、个人定位与能力分组集中维护在个人配置中。About 仅展示两条精简教育背景及用户提供的手机、邮箱和微信；课程、奖项、实习等详细履历通过简历 PDF 提供。联系方式缺失时隐藏。NPC 原始评测输出、完整 TFT 逐类记录和工作台长期使用反馈仍待补充。
