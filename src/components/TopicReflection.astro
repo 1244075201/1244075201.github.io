@@ -1,0 +1,99 @@
+---
+interface Props {
+  kind: string;
+}
+const { kind } = Astro.props;
+---
+
+{kind === "npc-evaluation" && (
+  <section class="prose reflection">
+    <h2>复盘：把可控性放进系统</h2>
+    <p>
+      长期状态不能只依赖 Prompt 中的角色描述。将 Context
+      显式分模块，才能讨论记住了什么、关系如何影响表达，以及哪些信息不该进入推理。
+    </p>
+    <p>
+      这些设计仍需要真实 Ablation 结果支持，不能据此宣称长期一致性已经全面验证。
+    </p>
+  </section>
+)}
+{kind === "tft-evaluation" && (
+  <>
+    <section class="visual-section">
+      <h2>错误分布说明了什么？</h2>
+      <div class="data-table">
+        <table>
+          <caption>已提供的分类结果</caption>
+          <thead>
+            <tr>
+              <th scope="col">分类</th>
+              <th scope="col">记录</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Direct</th>
+              <td>6/6</td>
+            </tr>
+            <tr>
+              <th scope="row">Partial</th>
+              <td>6/6</td>
+            </tr>
+            <tr>
+              <th scope="row">General</th>
+              <td>6/6</td>
+            </tr>
+            <tr>
+              <th scope="row">Irrelevant + Unavailable · A</th>
+              <td>12/12 False Positive</td>
+            </tr>
+            <tr>
+              <th scope="row">Irrelevant · B</th>
+              <td>3/6 FP</td>
+            </tr>
+            <tr>
+              <th scope="row">Unavailable · B</th>
+              <td>4/6 FP</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="source-note">
+        完整六类名称与逐类 A/B
+        表尚未提供；这里只列已知结果，不补齐未知分类或推断其成绩。
+      </p>
+    </section>
+    <ol class="iteration-summary">
+      <li>
+        <span>01</span>
+        <h3>Baseline A</h3>
+        <p>需要 Tool 的问题可以识别，但对不相关或不可用的问题也调用 Tool。</p>
+      </li>
+      <li>
+        <span>02</span>
+        <h3>Policy / Prompt Constraints</h3>
+        <p>更明确地约束何时使用工具，减少无依据的调用。</p>
+      </li>
+      <li>
+        <span>03</span>
+        <h3>Improved B</h3>
+        <p>
+          FP 从 12 降至 7，Precision 与 Accuracy 提升，测试集内 Recall 保持
+          100%。
+        </p>
+      </li>
+    </ol>
+  </>
+)}
+{kind === "tft-diagnosis" && (
+  <section class="prose reflection">
+    <h2>持续迭代的对象，是整条链路</h2>
+    <p>
+      第一类问题要求模型尊重工具证据与澄清边界；第二类问题要求先诊断 Parser 与
+      Retrieval Plan，再检查最终生成。
+    </p>
+    <p>
+      从工具调用到检索链路，可靠性需要逐层检查。当前案例保留了尚待解决的限制，也明确了下一轮迭代的方向。
+    </p>
+  </section>
+)}

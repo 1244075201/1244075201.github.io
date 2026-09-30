@@ -1,0 +1,93 @@
+---
+import WorkflowDiagram from "./WorkflowDiagram.astro";
+interface Props {
+  project: string;
+}
+const { project } = Astro.props;
+---
+
+{project === "tft-strategy-agent" && (
+  <div class="workflow-pair">
+    <WorkflowDiagram
+      title="Before · 自己搜集与核对"
+      tone="before"
+      steps={[
+        "遇到问题",
+        "搜索攻略",
+        "打开多个页面",
+        "判断是否当前版本",
+        "核对 Patch",
+        "找阵容并阅读",
+        "自己提取答案",
+      ]}
+    />
+    <WorkflowDiagram
+      title="Desired · 直接回答具体问题"
+      steps={["遇到问题", "Ask Agent", "当前版本 Evidence", "Answer"]}
+    />
+  </div>
+)}
+{project === "calendar-finance-workbench" && (
+  <>
+    <div class="workflow-pair">
+      <WorkflowDiagram
+        title="Before · 同一份记录维护两次"
+        tone="before"
+        steps={[
+          "接单",
+          "记录 Calendar",
+          "月底重新整理 Excel",
+          "填写金额与结算状态",
+          "统计收入",
+        ]}
+      />
+      <WorkflowDiagram
+        title="Solution · 在原有工作流上补齐结算"
+        steps={[
+          "Calendar",
+          "Import",
+          "Monthly Workspace",
+          "Pricing",
+          "Payment Status",
+          "Income / Outstanding",
+        ]}
+      />
+    </div>
+    <section class="visual-section">
+      <p class="eyebrow">MVP / 已有界面中的能力</p>
+      <h2>先跑通最核心的工作流</h2>
+      <div class="insight-grid">
+        <article>
+          <h3>记录与组织</h3>
+          <p>从日历更新工作记录，按月管理客户与工作内容。</p>
+        </article>
+        <article>
+          <h3>计价与应收</h3>
+          <p>维护计价方式、单价与应收金额。</p>
+        </article>
+        <article>
+          <h3>状态与概览</h3>
+          <p>查看订单状态、到账金额、月度进账与未收款。</p>
+        </article>
+        <article>
+          <h3>数据带走</h3>
+          <p>导出当前列表 CSV，并提供备份入口。</p>
+        </article>
+      </div>
+      <p class="source-note">
+        能力说明依据已提供的真实界面，不代表已完成全部边界与异常流程验证。
+      </p>
+    </section>
+    <section class="prose reflection">
+      <h2>从需求到可工作的产品</h2>
+      <p>
+        AI-assisted Development 是快速实现方式；核心产品决策是保留 Calendar
+        使用习惯，并连接工作记录与结算管理。
+      </p>
+      <p>
+        当前展示工作流、MVP
+        范围和实际界面。长期使用反馈与量化效果尚未提供，不据此宣称效率提升比例或商业成果。
+      </p>
+    </section>
+  </>
+)}

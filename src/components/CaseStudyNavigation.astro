@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from "astro:content";
+interface Props {
+  project: string;
+  topics: CollectionEntry<"topics">[];
+  active?: string;
+}
+const { project, topics, active } = Astro.props;
+---
+
+{topics.length > 0 && (
+  <nav class="topic-nav" aria-label="项目主题">
+    <a
+      href={`/projects/${project}/`}
+      aria-current={!active ? "page" : undefined}
+    >
+      项目概览
+    </a>
+    {topics.map((t) => (
+      <a
+        href={`/projects/${project}/${t.data.slug}/`}
+        aria-current={active === t.data.slug ? "page" : undefined}
+      >
+        {t.data.title}
+      </a>
+    ))}
+    <a href={`/projects/${project}/#demo`}>真实 Demo ↗</a>
+  </nav>
+)}

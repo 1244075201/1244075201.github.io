@@ -1,0 +1,35 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { categories } from "../data/categories";
+interface Props {
+  project: CollectionEntry<"projects">;
+  topicTitle?: string;
+  topicSummary?: string;
+}
+const { data: p } = Astro.props.project;
+const { topicTitle, topicSummary } = Astro.props;
+const category = categories.find((c) => c.id === p.category)!;
+---
+
+<header class="project-hero">
+  <a
+    class="back-link"
+    href={topicTitle ? `/projects/${p.slug}/` : `/projects/#${p.category}`}
+  >
+    ← {topicTitle ? p.title : category.name}
+  </a>
+  <p class="eyebrow">
+    {category.number} / {category.name}{" "}
+    <span class="hero-state">
+      {topicTitle ? "PROJECT TOPIC" : "PROJECT OVERVIEW"}
+    </span>
+  </p>
+  <h1>{topicTitle ?? p.title}</h1>
+  <p class="project-lede">{topicSummary ?? p.summary}</p>
+  {!topicTitle && p.demoAsset && (
+    <a class="text-link hero-demo-link" href="#demo">
+      观看真实演示 ↓
+    </a>
+  )}
+  {!topicTitle && p.evidence && <p class="provenance">{p.evidence}</p>}
+</header>

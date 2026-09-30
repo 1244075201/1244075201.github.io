@@ -1,9 +1,12 @@
 ---
 import { render, type CollectionEntry } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import Timeline from "../../components/Timeline.astro";
 import { getProjects } from "../../lib/projects";
-import { categories, contentLabels } from "../../data/categories";
+import { getTopics } from "../../lib/topics";
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+import EvidenceFigure from "../../components/EvidenceFigure.astro";
+import DemoPlayer from "../../components/DemoPlayer.astro";
+import TopicCard from "../../components/TopicCard.astro";
+import ProjectOverviewExtras from "../../components/ProjectOverviewExtras.astro";
 export async function getStaticPaths() {
   return (await getProjects())
     .filter((p) => p.data.display === "case-study")
@@ -17,128 +20,88 @@ interface Props {
 }
 const { project } = Astro.props;
 const p = project.data;
-const { Content, headings } = await render(project);
-const category = categories.find((c) => c.id === p.category)!;
-const toc = headings.filter((h) => h.depth === 2);
-if (p.showTimeline)
-  toc.push({ depth: 2, slug: "iteration-timeline", text: "评测与迭代" });
-const showToc = p.contentStatus !== "placeholder" && toc.length >= 4;
+const topics = await getTopics(p.slug);
+const { Content } = await render(project);
 ---
 
-<BaseLayout
-  title={p.title}
-  description={
-    p.summary ?? `${p.title}，${category.name}项目案例。项目详细内容待补充。`
-  }
->
-  <header class="case-heading">
-    <a class="back-link" href={`/projects/#${category.id}`}>
-      ← 返回{category.name}
-    </a>
-    <div class="case-label">
-      <span>
-        {category.number} / {category.name}
-      </span>
-      <span class="status-badge">{contentLabels[p.contentStatus]}</span>
-    </div>
-    <h1>{p.title}</h1>
-    {p.summary && <p class="case-summary">{p.summary}</p>}
-    {(p.role || p.period || p.projectStatus) && (
-      <dl class="project-facts">
-        {p.role && (
-          <div>
-            <dt>我的职责</dt>
-            <dd>{p.role}</dd>
-          </div>
-        )}
-        {p.period && (
-          <div>
-            <dt>项目周期</dt>
-            <dd>{p.period}</dd>
-          </div>
-        )}
-        {p.projectStatus && (
-          <div>
-            <dt>项目进展</dt>
-            <dd>{p.projectStatus}</dd>
-          </div>
-        )}
-      </dl>
-    )}
-    {p.technologies.length > 0 && (
-      <ul class="tags">
-        {p.technologies.map((tag) => (
-          <li>{tag}</li>
-        ))}
-      </ul>
-    )}
-    {p.links.length > 0 && (
-      <div class="project-links">
-        {p.links.map((link) => (
-          <a class="text-link" href={link.url} target="_blank" rel="noopener">
-            {link.label} ↗
-          </a>
+<ProjectLayout project={project}>
+  {p.slug === "vr-dnd" && p.demoAsset && (
+    <section id="demo" class="demo-section">
+      <h2>Gameplay · 战斗片段精选</h2>
+      <DemoPlayer asset={p.demoAsset} />
+    </section>
+  )}
+  {p.heroAsset && p.slug !== "vr-dnd" && p.category !== "lab" && (
+    <EvidenceFigure asset={p.heroAsset} priority />
+  )}
+  <article class="prose overview-copy">
+    <Content />
+  </article>
+  <ProjectOverviewExtras project={p.slug} />
+  {p.category === "lab" && p.heroAsset && (
+    <section class="visual-section">
+      <h2>Working Product · 实际工作台</h2>
+      <EvidenceFigure asset={p.heroAsset} />
+    </section>
+  )}
+  {topics.length > 0 && (
+    <section class="explore-section">
+      <div class="section-intro">
+        <p class="eyebrow">EXPLORE THE PROJECT</p>
+        <h2>选择一个主题，继续深入</h2>
+      </div>
+      <div class="topic-grid">
+        {topics.map((topic) => (
+          <TopicCard topic={topic} />
         ))}
       </div>
-    )}
-  </header>
-  {p.contentStatus === "placeholder" && (
-    <aside class="content-notice">
-      <span class="small-dot" aria-hidden="true"></span>
-      <p>案例内容待补充。此页保留项目介绍与后续记录的入口。</p>
+    </section>
+  )}
+  {p.demoAsset && p.slug !== "vr-dnd" && (
+    <section id="demo" class="demo-section">
+      <div class="section-intro">
+        <p class="eyebrow">REAL EVIDENCE</p>
+        <h2>
+          {p.slug === "llm-npc-agent"
+            ? "Uncut Interaction Demo"
+            : "真实问答演示"}
+        </h2>
+        <p>
+          {p.slug === "llm-npc-agent"
+            ? "输入、等待、回复和记忆更新，保留完整交互过程。"
+            : "从输入具体问题，到显示回答与依据的完整过程。"}
+        </p>
+      </div>
+      <DemoPlayer asset={p.demoAsset} />
+    </section>
+  )}
+  {p.slug === "vr-dnd" && (
+    <details class="disclosure full-gameplay">
+      <summary>观看完整演示 · 12分44秒 / 4 个连续部分</summary>
+      <p class="source-note">
+        按原片顺序分段，未经加速。分段边界是播放组织方式，不代表独立玩法章节。
+      </p>
+      <div class="full-video-grid">
+        {[1, 2, 3, 4].map((i) => (
+          <section>
+            <h3>第 {i} 部分 / 4</h3>
+            <DemoPlayer asset={`vr-part-${i}`} />
+          </section>
+        ))}
+      </div>
+    </details>
+  )}
+  {p.slug === "llm-npc-agent" && (
+    <aside class="reference-note">
+      <strong>Previous Work / 环境来源</strong>
+      <p>
+        本项目基于 Generative Agents / Smallville 环境扩展，重点为 Persistent
+        Context 与 NPC 交互机制。
+      </p>
+      <a href="https://arxiv.org/abs/2304.03442" target="_blank" rel="noopener">
+        Generative Agents: Interactive Simulacra of Human Behavior — Park et
+        al., 2023 ↗
+      </a>
     </aside>
   )}
-  {p.cover && (
-    <figure class="case-cover">
-      <img src={p.cover.src} alt={p.cover.alt} width="1120" height="630" />
-    </figure>
-  )}
-  <div class:list={["case-layout", { "with-toc": showToc }]}>
-    {showToc && (
-      <aside class="case-toc">
-        <details open>
-          <summary>本页目录</summary>
-          <nav aria-label="案例目录">
-            {toc.map((h) => (
-              <a href={`#${h.slug}`}>{h.text}</a>
-            ))}
-          </nav>
-        </details>
-      </aside>
-    )}
-    <article class="case-body prose">
-      <Content />
-      {p.showTimeline && <Timeline iterations={p.iterations} />}
-      {p.media.map((media) => (
-        <figure>
-          {media.type === "image" ? (
-            <img src={media.src} alt={media.alt} loading="lazy" />
-          ) : (
-            <video
-              controls
-              preload="metadata"
-              poster={media.poster}
-              aria-label={media.alt}
-            >
-              <source src={media.src} />
-              <a href={media.src}>下载视频：{media.alt}</a>
-            </video>
-          )}
-          {media.caption && <figcaption>{media.caption}</figcaption>}
-        </figure>
-      ))}
-    </article>
-  </div>
-  <div class="home-closing">
-    <p>继续浏览</p>
-    <a class="text-link" href="/projects/">
-      全部项目 ↗
-    </a>
-  </div>
-</BaseLayout>
-<script>
-  const details =
-    document.querySelector<HTMLDetailsElement>(".case-toc details");
-  if (details && window.matchMedia("(max-width: 640px)").matches)
-    details.open = false;
-</script>
+</ProjectLayout>

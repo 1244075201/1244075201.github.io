@@ -1,0 +1,15 @@
+---
+import type { CollectionEntry } from "astro:content";
+interface Props {
+  topic: CollectionEntry<"topics">;
+}
+const { data } = Astro.props.topic;
+---
+
+<a class="topic-card" href={`/projects/${data.project}/${data.slug}/`}>
+  <span class="eyebrow">0{data.order} / 深入阅读</span>
+  <h3>
+    {data.title} <span aria-hidden="true">↗</span>
+  </h3>
+  <p>{data.summary}</p>
+</a>

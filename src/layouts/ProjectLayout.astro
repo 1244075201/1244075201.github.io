@@ -1,0 +1,45 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "./BaseLayout.astro";
+import ProjectHero from "../components/ProjectHero.astro";
+import CaseStudyNavigation from "../components/CaseStudyNavigation.astro";
+import { getTopics } from "../lib/topics";
+interface Props {
+  project: CollectionEntry<"projects">;
+  topic?: CollectionEntry<"topics">;
+}
+const { project, topic } = Astro.props;
+const topics = await getTopics(project.data.slug);
+---
+
+<BaseLayout
+  title={
+    topic ? `${topic.data.title} · ${project.data.title}` : project.data.title
+  }
+  description={topic?.data.summary ?? project.data.summary}
+>
+  <ProjectHero
+    project={project}
+    topicTitle={topic?.data.title}
+    topicSummary={topic?.data.summary}
+  />
+  <CaseStudyNavigation
+    project={project.data.slug}
+    topics={topics}
+    active={topic?.data.slug}
+  />
+  <slot />
+  <div class="home-closing">
+    <p>继续浏览</p>
+    <div>
+      {topic && (
+        <a class="text-link" href={`/projects/${project.data.slug}/`}>
+          项目概览 ↗
+        </a>
+      )}
+      <a class="text-link" href="/projects/">
+        全部项目 ↗
+      </a>
+    </div>
+  </div>
+</BaseLayout>

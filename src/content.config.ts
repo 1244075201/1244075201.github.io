@@ -18,6 +18,9 @@ const projects = defineCollection({
       .enum(["placeholder", "partial", "complete"])
       .default("placeholder"),
     summary: z.string().optional(),
+    evidence: z.string().optional(),
+    heroAsset: z.string().optional(),
+    demoAsset: z.string().optional(),
     projectStatus: z.string().optional(),
     role: z.string().optional(),
     period: z.string().optional(),
@@ -58,4 +61,26 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { projects };
+const topics = defineCollection({
+  loader: glob({
+    pattern: "**/*.md",
+    base: "./src/content/topics",
+    generateId: ({ entry }) => entry.replace(/\.md$/, ""),
+  }),
+  schema: z.object({
+    project: z.string(),
+    slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+    title: z.string(),
+    summary: z.string(),
+    order: z.number().int(),
+    visualization: z.enum([
+      "npc-design",
+      "npc-mechanisms",
+      "npc-evaluation",
+      "tft-evaluation",
+      "tft-architecture",
+      "tft-diagnosis",
+    ]),
+  }),
+});
+export const collections = { projects, topics };

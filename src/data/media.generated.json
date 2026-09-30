@@ -1,0 +1,210 @@
+{
+  "npc-ui": {
+    "kind": "image",
+    "src": "/media/npc-ui-1986.webp",
+    "srcset": "/media/npc-ui-480.webp 480w, /media/npc-ui-960.webp 960w, /media/npc-ui-1986.webp 1986w",
+    "width": 1986,
+    "height": 1068,
+    "alt": "NPC 实机交互界面",
+    "caption": "基于 Generative Agents / Smallville 环境扩展；本项目重点展示 Persistent Context 与 NPC 交互机制。",
+    "evidence": "real-evidence",
+    "redacted": false,
+    "source": "素材/LLM NPC/hero.png"
+  },
+  "npc-original": {
+    "kind": "image",
+    "src": "/media/npc-original-674.webp",
+    "srcset": "/media/npc-original-480.webp 480w, /media/npc-original-674.webp 674w",
+    "width": 674,
+    "height": 632,
+    "alt": "原始 Thesis Architecture Diagram",
+    "caption": "项目原始架构图；网页架构重绘以此为依据。",
+    "evidence": "real-evidence",
+    "redacted": false,
+    "source": "素材/LLM NPC/系统架构图.png"
+  },
+  "tft-ui": {
+    "kind": "image",
+    "src": "/media/tft-ui-1773.webp",
+    "srcset": "/media/tft-ui-480.webp 480w, /media/tft-ui-960.webp 960w, /media/tft-ui-1773.webp 1773w",
+    "width": 1773,
+    "height": 1217,
+    "alt": "TFT Strategy Agent 真实界面",
+    "caption": "录制时版本：Set 18 · Patch 18.2。此作品集不提供实时游戏数据。",
+    "evidence": "real-evidence",
+    "redacted": false,
+    "source": "素材/TFT/UI.png"
+  },
+  "workspace": {
+    "kind": "image",
+    "src": "/media/workspace-1659.webp",
+    "srcset": "/media/workspace-480.webp 480w, /media/workspace-960.webp 960w, /media/workspace-1659.webp 1659w",
+    "width": 1659,
+    "height": 948,
+    "alt": "自由职业工作与结算管理工作台（已脱敏）",
+    "caption": "真实产品界面；客户、工作内容与敏感金额已脱敏。",
+    "evidence": "real-evidence",
+    "redacted": true,
+    "source": "素材/记账工作台/工作台主界面.png"
+  },
+  "npc-demo": {
+    "kind": "video",
+    "src": "/media/npc-demo.mp4",
+    "poster": "/media/npc-demo-poster.webp",
+    "width": 1976,
+    "height": 1064,
+    "duration": 58.9,
+    "alt": "NPC 完整交互演示",
+    "caption": "Uncut Interaction Demo · 保留输入、等待、回复与记忆更新。基于 Generative Agents / Smallville 环境扩展。",
+    "evidence": "real-evidence",
+    "redacted": false,
+    "source": "素材/LLM NPC/日常对话录像.mp4"
+  },
+  "tft-demo": {
+    "kind": "video",
+    "src": "/media/tft-demo.mp4",
+    "poster": "/media/tft-demo-poster.webp",
+    "width": 1920,
+    "height": 1080,
+    "duration": 65.5,
+    "alt": "TFT 实际问答演示",
+    "caption": "完整问答流程；Set 18 / Patch 18.2 为录制时的版本上下文。",
+    "evidence": "real-evidence",
+    "redacted": false,
+    "source": "素材/TFT/问答录像.mp4"
+  },
+  "shooter-demo": {
+    "kind": "video",
+    "src": "/media/shooter-demo.mp4",
+    "poster": "/media/shooter-demo-poster.webp",
+    "width": 1920,
+    "height": 978,
+    "duration": 150.8436,
+    "alt": "射击游戏 Gameplay",
+    "caption": "真实游戏操作录像。",
+    "evidence": "real-evidence",
+    "redacted": false,
+    "source": "素材/游戏与交互/射击游戏.mp4"
+  },
+  "escape-demo": {
+    "kind": "video",
+    "src": "/media/escape-demo.mp4",
+    "poster": "/media/escape-demo-poster.webp",
+    "width": 864,
+    "height": 544,
+    "duration": 124.725,
+    "alt": "密室解谜游戏 Gameplay",
+    "caption": "真实游戏操作录像。",
+    "evidence": "real-evidence",
+    "redacted": false,
+    "source": "素材/游戏与交互/密室解密.mp4",
+    "captions": {
+      "src": "/media/escape-demo-summary.vtt",
+      "label": "中文讲解摘要（非逐字）",
+      "language": "zh-CN"
+    }
+  },
+  "math-demo": {
+    "kind": "video",
+    "src": "/media/math-demo.mp4",
+    "poster": "/media/math-demo-poster.webp",
+    "width": 962,
+    "height": 544,
+    "duration": 160.37037,
+    "alt": "古代数学之旅 Gameplay",
+    "caption": "真实游戏操作录像。",
+    "evidence": "real-evidence",
+    "redacted": false,
+    "source": "素材/游戏与交互/古代数学之迷.mp4"
+  },
+  "vr-highlight": {
+    "kind": "video",
+    "src": "/media/vr-highlight.mp4",
+    "poster": "/media/vr-highlight-poster.webp",
+    "width": 1280,
+    "height": 720,
+    "duration": 75,
+    "alt": "VR D&D 战斗片段精选",
+    "caption": "原片 04:30–05:45 的连续战斗片段；未加速。完整演示保留原有署名。",
+    "evidence": "real-evidence",
+    "redacted": false,
+    "source": "素材/游戏与交互/DND&VR桌游.mp4",
+    "captions": {
+      "src": "/media/vr-highlight-summary.vtt",
+      "label": "中文讲解摘要（非逐字）",
+      "language": "zh-CN"
+    }
+  },
+  "vr-part-1": {
+    "kind": "video",
+    "src": "/media/vr-part-1.mp4",
+    "poster": "/media/vr-part-1-poster.webp",
+    "width": 1280,
+    "height": 720,
+    "duration": 240,
+    "alt": "VR D&D 完整演示第 1 部分",
+    "caption": "原片顺序分段 1/4 · 0:00 起；未经加速。",
+    "evidence": "real-evidence",
+    "redacted": false,
+    "source": "素材/游戏与交互/DND&VR桌游.mp4",
+    "captions": {
+      "src": "/media/vr-part-1-summary.vtt",
+      "label": "中文讲解摘要（非逐字）",
+      "language": "zh-CN"
+    }
+  },
+  "vr-part-2": {
+    "kind": "video",
+    "src": "/media/vr-part-2.mp4",
+    "poster": "/media/vr-part-2-poster.webp",
+    "width": 1280,
+    "height": 720,
+    "duration": 240,
+    "alt": "VR D&D 完整演示第 2 部分",
+    "caption": "原片顺序分段 2/4 · 4:00 起；未经加速。",
+    "evidence": "real-evidence",
+    "redacted": false,
+    "source": "素材/游戏与交互/DND&VR桌游.mp4",
+    "captions": {
+      "src": "/media/vr-part-2-summary.vtt",
+      "label": "中文讲解摘要（非逐字）",
+      "language": "zh-CN"
+    }
+  },
+  "vr-part-3": {
+    "kind": "video",
+    "src": "/media/vr-part-3.mp4",
+    "poster": "/media/vr-part-3-poster.webp",
+    "width": 1280,
+    "height": 720,
+    "duration": 240,
+    "alt": "VR D&D 完整演示第 3 部分",
+    "caption": "原片顺序分段 3/4 · 8:00 起；未经加速。",
+    "evidence": "real-evidence",
+    "redacted": false,
+    "source": "素材/游戏与交互/DND&VR桌游.mp4",
+    "captions": {
+      "src": "/media/vr-part-3-summary.vtt",
+      "label": "中文讲解摘要（非逐字）",
+      "language": "zh-CN"
+    }
+  },
+  "vr-part-4": {
+    "kind": "video",
+    "src": "/media/vr-part-4.mp4",
+    "poster": "/media/vr-part-4-poster.webp",
+    "width": 1280,
+    "height": 720,
+    "duration": 44.48597900000004,
+    "alt": "VR D&D 完整演示第 4 部分",
+    "caption": "原片顺序分段 4/4 · 12:00 起；未经加速。",
+    "evidence": "real-evidence",
+    "redacted": false,
+    "source": "素材/游戏与交互/DND&VR桌游.mp4",
+    "captions": {
+      "src": "/media/vr-part-4-summary.vtt",
+      "label": "中文讲解摘要（非逐字）",
+      "language": "zh-CN"
+    }
+  }
+}

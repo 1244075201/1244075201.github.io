@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { contentLabels } from "../data/categories";
+import { getMedia } from "../data/media";
 interface Props {
   project: CollectionEntry<"projects">;
   compact?: boolean;
@@ -8,11 +9,22 @@ interface Props {
 const { project, compact = false } = Astro.props;
 const p = project.data;
 const href = p.display === "case-study" ? `/projects/${p.slug}/` : undefined;
+const hero = p.heroAsset ? getMedia(p.heroAsset) : undefined;
 ---
 
 <article class:list={["project-card", { compact }]}>
   <div class="project-cover">
-    {p.cover ? (
+    {hero ? (
+      <img
+        src={hero.kind === "video" ? hero.poster : hero.src}
+        srcset={hero.kind === "image" ? hero.srcset : undefined}
+        sizes="(max-width: 640px) 100vw, 560px"
+        alt={hero.alt}
+        width={hero.width}
+        height={hero.height}
+        loading="lazy"
+      />
+    ) : p.cover ? (
       <img
         src={p.cover.src}
         alt={p.cover.alt}

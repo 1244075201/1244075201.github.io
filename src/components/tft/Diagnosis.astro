@@ -1,0 +1,49 @@
+---
+import { trace } from "../../data/tft";
+---
+
+<section class="visual-section">
+  <p class="eyebrow">BAD CASE 01 / EVIDENCE BOUNDARY</p>
+  <h2>Tool Calling 成功，不等于行为可靠</h2>
+  <div class="badcase-grid">
+    <article>
+      <h3>Tool Evidence</h3>
+      <code>AMBIGUOUS_CHAMPION</code>
+      <p>工具返回了歧义，而不是唯一答案。</p>
+    </article>
+    <article>
+      <h3>Expected</h3>
+      <p>向用户澄清具体 Champion。</p>
+    </article>
+    <article>
+      <h3>Actual</h3>
+      <p>
+        Model 自行选择 <code>TFT17_Shen</code>，随后再次调用 Tool。
+      </p>
+    </article>
+  </div>
+  <p class="insight">Model guessed beyond available tool evidence.</p>
+  <p>需要关注模型如何处理不确定性，而不只是工具调用有没有成功。</p>
+</section>
+<section class="visual-section">
+  <p class="eyebrow">BAD CASE 02 / CURRENT LIMITATION</p>
+  <h2>从回答向上追溯，定位链路偏移</h2>
+  <blockquote class="query-quote">“黑荆棘裁决怎么玩？”</blockquote>
+  <p class="source-note">根据开发记录整理的 Trace 摘要，非原始日志导出。</p>
+  <ol class="trace-list">
+    {trace.map((t) => (
+      <li>
+        <span>{t.stage}</span>
+        <code>{t.value}</code>
+        <p>{t.description}</p>
+      </li>
+    ))}
+  </ol>
+  <aside class="honesty-note">
+    <strong>Root Cause</strong>
+    <p>
+      Parser 没有正确识别“裸阵容名 + 怎么玩”，使后续 Retrieval Plan
+      偏离用户真正意图。此案例作为当前限制保留，不表示问题已修复。
+    </p>
+  </aside>
+</section>

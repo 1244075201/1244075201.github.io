@@ -1,0 +1,77 @@
+---
+import { metrics, falsePositives } from "../data/tft";
+---
+
+<section class="metric-story" aria-labelledby="metric-title">
+  <div class="section-intro">
+    <p class="eyebrow">TOOL SELECTION / 早期评测</p>
+    <h2 id="metric-title">减少过度调用，保留 Recall</h2>
+    <p>
+      Golden Set：36 cases · 6 categories × 6 cases。以下对比属于 Hybrid
+      架构之前的 Tool Selection 阶段。
+    </p>
+  </div>
+  <div class="metric-legend" aria-hidden="true">
+    <span>▰ Baseline A</span>
+    <span>▰ Improved B</span>
+    <span>统一标尺 0–100%</span>
+  </div>
+  <div class="metric-grid" aria-hidden="true">
+    {metrics.map((m) => (
+      <div class="metric-chart">
+        <h3>{m.name}</h3>
+        <div class="metric-row">
+          <span>A</span>
+          <div class="metric-track">
+            <span style={`width:${m.a}%`}></span>
+          </div>
+          <strong>{m.aLabel}</strong>
+        </div>
+        <div class="metric-row improved">
+          <span>B</span>
+          <div class="metric-track">
+            <span style={`width:${m.b}%`}></span>
+          </div>
+          <strong>{m.bLabel}</strong>
+        </div>
+      </div>
+    ))}
+  </div>
+  <div class="fp-result">
+    <span>False Positive</span>
+    <strong>
+      {falsePositives.a} <span>→</span> {falsePositives.b}
+    </strong>
+    <span>次误调用</span>
+  </div>
+  <div class="data-table">
+    <table>
+      <caption>Tool Selection Evaluation 数值对照</caption>
+      <thead>
+        <tr>
+          <th scope="col">指标</th>
+          <th scope="col">Baseline A</th>
+          <th scope="col">Improved B</th>
+        </tr>
+      </thead>
+      <tbody>
+        {metrics.map((m) => (
+          <tr>
+            <th scope="row">{m.name}</th>
+            <td>{m.aLabel}</td>
+            <td>{m.bLabel}</td>
+          </tr>
+        ))}
+        <tr>
+          <th scope="row">False Positive</th>
+          <td>12</td>
+          <td>7</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="source-note">
+    数据来源：项目开发者提供的评测记录。此处为数值整理展示，原始 Golden Set
+    与逐条结果尚未附上。
+  </p>
+</section>

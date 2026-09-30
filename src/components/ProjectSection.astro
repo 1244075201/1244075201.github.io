@@ -2,12 +2,15 @@
 import type { CollectionEntry } from "astro:content";
 import { categories } from "../data/categories";
 import ProjectCard from "./ProjectCard.astro";
+import GameGallery from "./GameGallery.astro";
 interface Props {
   category: (typeof categories)[number];
   projects: CollectionEntry<"projects">[];
   compact?: boolean;
 }
 const { category, projects, compact = false } = Astro.props;
+const cases = projects.filter((p) => p.data.display === "case-study");
+const gallery = projects.filter((p) => p.data.display === "gallery");
 ---
 
 <section
@@ -22,9 +25,18 @@ const { category, projects, compact = false } = Astro.props;
     </div>
     <p>{category.description}</p>
   </div>
-  <div class:list={["project-grid", { "compact-grid": compact }]}>
-    {projects.map((project) => (
+  <div
+    class:list={[
+      "project-grid",
+      {
+        "compact-grid": compact,
+        "featured-game-grid": category.id === "games" && !compact,
+      },
+    ]}
+  >
+    {cases.map((project) => (
       <ProjectCard project={project} compact={compact} />
     ))}
   </div>
+  {gallery.length > 0 && <GameGallery projects={gallery} />}
 </section>

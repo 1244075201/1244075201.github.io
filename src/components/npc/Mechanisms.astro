@@ -1,0 +1,111 @@
+---
+import { relationshipExamples } from "../../data/npc";
+---
+
+<div class="mechanism-list">
+  <section class="mechanism">
+    <p class="eyebrow">CASE 01 / 机制示意，非原产品 UI</p>
+    <h2>知道什么，与经历过什么</h2>
+    <div class="insight-grid">
+      <article>
+        <h3>Knowledge · 背景知识</h3>
+        <p>村庄北边的森林里有一处古老遗迹。</p>
+      </article>
+      <article>
+        <h3>Memory · 过去经历</h3>
+        <p>三天前，玩家告诉 NPC，他准备去北部森林调查遗迹。</p>
+      </article>
+    </div>
+    <div class="example-dialogue">
+      <p>
+        <strong>Player</strong>“我回来了。”
+      </p>
+      <p>
+        <strong>NPC · 解释性示例</strong>
+        “欢迎回来！北部森林的遗迹调查得怎么样？”
+      </p>
+    </div>
+    <p class="insight">
+      Knowledge 定义角色长期知道什么；Memory 让这次回应延续之前的经历。
+    </p>
+  </section>
+  <section class="mechanism relationship-demo">
+    <p class="eyebrow">CASE 02 / 机制示意，非原产品 UI</p>
+    <h2>关系进入下一次对话的 Context</h2>
+    <p>Interaction → Relationship State → Future Context → Future Response</p>
+    <div class="scenario-controls" hidden>
+      {relationshipExamples.map((e, i) => (
+        <button type="button" data-scenario={e.id} aria-pressed={i === 0}>
+          {e.label}
+        </button>
+      ))}
+    </div>
+    <div class="scenario-panels">
+      {relationshipExamples.map((e) => (
+        <article data-example={e.id}>
+          <h3>{e.label}</h3>
+          <p class="relationship-state">{e.state}</p>
+          <p>
+            <strong>Future Context</strong> · {e.context}
+          </p>
+          <p>
+            <strong>Response · 解释性示例</strong> {e.response}
+          </p>
+        </article>
+      ))}
+    </div>
+    <p class="source-note">
+      预设示例用于说明机制，不调用模型、不累计分数，也不是实验输出。
+    </p>
+  </section>
+  <section class="mechanism">
+    <p class="eyebrow">CASE 03 / 机制示意，非原产品 UI</p>
+    <h2>为什么 NPC 不是全知 Chatbot？</h2>
+    <div class="belief-grid">
+      <article class="hidden-truth">
+        <h3>World Truth</h3>
+        <p>茶馆老板已经离开村庄。</p>
+        <span>隐藏事实，不直接进入回答依据</span>
+      </article>
+      <article>
+        <h3>NPC Observation</h3>
+        <p>最后一次见到老板：昨天 · 茶馆。</p>
+      </article>
+      <article>
+        <h3>NPC Belief</h3>
+        <p>“老板应该还在茶馆。”</p>
+      </article>
+    </div>
+    <div class="example-dialogue">
+      <p>
+        <strong>Player</strong>“老板现在在哪里？”
+      </p>
+      <p>
+        <strong>NPC · 解释性示例</strong>“我昨天在茶馆见过他，他应该还在那里。”
+      </p>
+    </div>
+    <p class="insight">
+      系统不只是给 NPC 更多信息，而是控制它只能基于角色自身可知的信息推理。
+    </p>
+  </section>
+</div>
+<script>
+  document
+    .querySelectorAll<HTMLElement>(".relationship-demo")
+    .forEach((root) => {
+      root.querySelector<HTMLElement>(".scenario-controls")!.hidden = false;
+      const panels = root.querySelectorAll<HTMLElement>("[data-example]");
+      const buttons =
+        root.querySelectorAll<HTMLButtonElement>("[data-scenario]");
+      function select(id: string) {
+        panels.forEach((p) => (p.hidden = p.dataset.example !== id));
+        buttons.forEach((b) =>
+          b.setAttribute("aria-pressed", String(b.dataset.scenario === id)),
+        );
+      }
+      buttons.forEach((b) =>
+        b.addEventListener("click", () => select(b.dataset.scenario!)),
+      );
+      select("daily");
+    });
+</script>

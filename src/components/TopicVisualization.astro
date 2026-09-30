@@ -1,0 +1,19 @@
+---
+import NpcArchitecture from "./npc/Architecture.astro";
+import NpcMechanisms from "./npc/Mechanisms.astro";
+import NpcEvaluation from "./npc/Evaluation.astro";
+import TftArchitecture from "./tft/Architecture.astro";
+import TftDiagnosis from "./tft/Diagnosis.astro";
+import MetricComparison from "./MetricComparison.astro";
+interface Props {
+  kind: string;
+}
+const { kind } = Astro.props;
+---
+
+{kind === "npc-design" && <NpcArchitecture />}
+{kind === "npc-mechanisms" && <NpcMechanisms />}
+{kind === "npc-evaluation" && <NpcEvaluation />}
+{kind === "tft-evaluation" && <MetricComparison />}
+{kind === "tft-architecture" && <TftArchitecture />}
+{kind === "tft-diagnosis" && <TftDiagnosis />}

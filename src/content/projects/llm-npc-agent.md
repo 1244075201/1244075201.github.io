@@ -4,19 +4,23 @@ title: LLM-based NPC Agent
 category: ai
 order: 1
 featured: true
-contentStatus: placeholder
+contentStatus: partial
+heroAsset: npc-ui
+demoAsset: npc-demo
+summary: 围绕记忆、知识、关系与认知边界，设计持续运行的 NPC Context。
+evidence: 基于 Generative Agents / Smallville 环境扩展；本项目重点展示 Persistent Context 与 NPC 交互机制，地图和原有环境不属于个人原创贡献。
 ---
 
-## 项目概览
+## 让 NPC 基于自己的经历持续行动
 
-待补充：项目背景、希望解决的问题，以及我的具体职责。
+传统 NPC 的 Script、Dialogue Tree 与 State Machine 稳定、可控，但交互自由度有限。直接接入 LLM 后，角色仍可能忘记过去、失去关系连续性，或者使用自己本不该知道的信息。
 
-## 方案与关键设计
+这个项目关注的是：**让 NPC 在长期运行的世界中，基于自己的经历、关系、知识与认知持续行动。**
 
-待补充：Agent 的工作方式、核心设计和关键决策。
+## 三个核心设计
 
-## 评测与复盘
+- **Persistent Context**：将 Memory、Knowledge、Relationship、World Grounding 与 Belief Boundary 设计为明确的 Context Modules。
+- **Rule-based + LLM Hybrid**：确定性的状态与边界尽量交给可控逻辑，自然语言理解、推理与生成交给 LLM。
+- **场景约束下的模型选择与评测**：比较本地模型规模的取舍，并通过 Ablation 检查各模块对行为的影响。
 
-待补充：Evaluation 方法、实际结果、迭代记录与项目复盘。
-
-<!-- 写作提纲：问题是什么 → 为什么值得解决 → 我的方案 → 系统如何工作 → 核心设计 → 关键设计决策 → Evaluation → Results → Iteration → 项目复盘。仅填写真实资料，不从项目名称推断技术实现。 -->
+系统设计、机制解释和评测方法分开呈现。可以先看真实交互，再选择感兴趣的主题。

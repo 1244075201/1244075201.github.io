@@ -6,3 +6,4 @@ output/
 .playwright-cli/
 .env*
 !.env.example
+素材/

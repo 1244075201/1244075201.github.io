@@ -1,0 +1,18 @@
+---
+interface Props {
+  title: string;
+  steps: string[];
+  tone?: "before" | "after";
+}
+const { title, steps, tone = "after" } = Astro.props;
+---
+
+<section class:list={["workflow", tone]} aria-label={title}>
+  <p class="eyebrow">流程示意</p>
+  <h3>{title}</h3>
+  <ol>
+    {steps.map((step) => (
+      <li>{step}</li>
+    ))}
+  </ol>
+</section>

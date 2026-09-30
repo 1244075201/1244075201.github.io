@@ -4,20 +4,25 @@ title: TFT Strategy Agent
 category: ai
 order: 2
 featured: true
-contentStatus: placeholder
-showTimeline: true
-iterations: []
+contentStatus: partial
+heroAsset: tft-ui
+demoAsset: tft-demo
+summary: 从当前版本问答出发，通过 Evaluation、Bad Case 与 Trace 改进 Agent。
+evidence: Version-aware Strategy Q&A · Set 18 / Patch 18.2 为素材录制时的版本上下文，不代表本网站提供实时版本数据。
 ---
 
-## 项目概览
+## 搜索攻略，不等于快速得到可信答案
 
-待补充：问题背景、项目目标与我的具体职责。
+Set 18 开始时，我没有时间提前了解新赛季。真正开始游戏后，阵容、英雄、装备和强化都不熟悉；攻略来源分散，还需要核对 Patch、发布时间与数据来源。
 
-## 方案与关键设计
+问题不是“网上没有攻略”，而是**如何基于当前版本 Context，直接回答玩家此刻的具体问题**。
 
-待补充：系统工作方式、核心设计，以及设计决策的依据。
+## 产品目标：Version-aware Strategy Q&A
 
-<!-- 写作提纲：问题与价值 → 方案 → 系统工作方式 → 核心设计与决策 → Evaluation → Results → Iteration → 复盘。
-迭代内容填写在 frontmatter 的 iterations 中：version / problem / evidence / change / result / next。
-用真实版本和数据呈现：问题发现 → 建立 Evaluation → 数据验证 → 找到问题 → 修改架构 → 再次评测 → 新一轮迭代。
-不要将示例或计划写成已完成的评测结果。 -->
+面向 TFT 玩家，结合游戏数据、阵容信息与 Strategy Evidence，通过自然语言提供事实查询和策略问答。它不是万能 AI 教练，而是帮助用户减少信息核对与答案提取成本的问答产品。
+
+## 从工具选择，到整条链路
+
+早期先建立 36 条 Golden Set，检查工具是否被正确调用。Tool Policy / Prompt Constraints 改进之后，继续通过 Bad Case 与 Trace 发现证据边界和检索链路问题，最终演化为 Hybrid Routing。
+
+**早期 A/B 评测、后续 Hybrid 架构和当前 UI 属于不同层面的证据。**下面的主题页分别解释，不将早期指标包装成最终架构的评测结果。

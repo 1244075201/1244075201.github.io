@@ -1,0 +1,43 @@
+---
+import { models, ablations } from "../../data/npc";
+---
+
+<section class="visual-section">
+  <p class="eyebrow">LOCAL LLM / MODEL SELECTION</p>
+  <h2>选择适合实时交互的模型</h2>
+  <div class="model-grid">
+    {models.map((m) => (
+      <article class:list={["model-card", { selected: m.selected }]}>
+        <span>{m.title}</span>
+        <h3>{m.name}</h3>
+        <p>{m.text}</p>
+      </article>
+    ))}
+  </div>
+  <p class="insight">
+    选择 7B，是因为它更符合实时 NPC 场景的产品约束，而不是因为它能力最强。
+  </p>
+  <p class="source-note">
+    以上为项目中的定性选择结论，不包含统一硬件条件下的 Benchmark。
+  </p>
+</section>
+<section class="visual-section">
+  <p class="eyebrow">ABLATION / 评测方法</p>
+  <h2>Context Modules 是否真正改变行为？</h2>
+  <p>保持输入一致，逐个关闭 Context Module，对照 NPC 的行为变化。</p>
+  <div class="ablation-list">
+    {ablations.map((a) => (
+      <article>
+        <div>
+          <h3>{a.module}</h3>
+          <span class="toggle-label">OFF / ON 对照</span>
+        </div>
+        <p>{a.question}</p>
+        <p class="source-note">观察目标：{a.observe}</p>
+      </article>
+    ))}
+  </div>
+  <aside class="honesty-note">
+    此处展示评测方法，原始结果待补充。不会用示意回复替代实际实验输出。
+  </aside>
+</section>

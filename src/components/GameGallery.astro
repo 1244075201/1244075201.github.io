@@ -1,0 +1,18 @@
+---
+import type { CollectionEntry } from "astro:content";
+import DemoPlayer from "./DemoPlayer.astro";
+interface Props {
+  projects: CollectionEntry<"projects">[];
+}
+const { projects } = Astro.props;
+---
+
+<div class="game-gallery">
+  {projects.map(({ data: p }) => (
+    <article class="game-item">
+      <h3>{p.title}</h3>
+      <p>{p.summary}</p>
+      {p.demoAsset && <DemoPlayer asset={p.demoAsset} />}
+    </article>
+  ))}
+</div>

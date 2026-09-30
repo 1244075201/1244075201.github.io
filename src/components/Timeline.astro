@@ -2,8 +2,9 @@
 import type { CollectionEntry } from "astro:content";
 interface Props {
   iterations: CollectionEntry<"projects">["data"]["iterations"];
+  title?: string;
 }
-const { iterations } = Astro.props;
+const { iterations, title = "评测与迭代" } = Astro.props;
 const fields = [
   { key: "problem", label: "发现的问题" },
   { key: "evidence", label: "评测依据" },
@@ -14,7 +15,7 @@ const fields = [
 ---
 
 <section class="timeline-section" aria-labelledby="iteration-timeline">
-  <h2 id="iteration-timeline">评测与迭代</h2>
+  <h2 id="iteration-timeline">{title}</h2>
   {iterations.length ? (
     <ol class="timeline">
       {iterations.map((item) => (

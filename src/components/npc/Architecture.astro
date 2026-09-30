@@ -1,0 +1,81 @@
+---
+import { contextModules } from "../../data/npc";
+import WorkflowDiagram from "../WorkflowDiagram.astro";
+import EvidenceFigure from "../EvidenceFigure.astro";
+---
+
+<section class="visual-section">
+  <p class="eyebrow">架构重绘 · 以原始 Thesis 图为依据</p>
+  <h2>让 Context 成为明确的系统结构</h2>
+  <div class="npc-architecture">
+    <div class="npc-main">
+      <div class="flow-node">Player</div>
+      <div class="flow-node">Player Interaction Layer</div>
+      <div class="flow-node">NPC Agent</div>
+      <section class="context-box" id="persistent-context">
+        <h3>Persistent Context Management</h3>
+        <div class="context-grid">
+          {contextModules.map((m) => (
+            <div>
+              <strong>{m.name}</strong>
+              <p>{m.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+      <div class="flow-node">Dialogue / Action Reasoning</div>
+      <div class="flow-node" id="npc-output">
+        NPC Dialogue / Action
+      </div>
+    </div>
+    <aside class="logging-note">
+      <span class="eyebrow">次要观测路径</span>
+      <h3>Evaluation Logging</h3>
+      <p>
+        <span class="dashed-arrow" aria-hidden="true">
+          ⇢
+        </span>{" "}
+        Persistent Context
+      </p>
+      <p>
+        <span class="dashed-arrow" aria-hidden="true">
+          ⇢
+        </span>{" "}
+        Dialogue / Action
+      </p>
+      <small>原图中的两条虚线均流向 Logging，不参与主要推理链路。</small>
+    </aside>
+  </div>
+  <div class="insight-grid">
+    <article>
+      <h3>Rule-based</h3>
+      <p>确定性的状态与边界尽量交给可控逻辑。</p>
+    </article>
+    <article>
+      <h3>LLM</h3>
+      <p>承担需要自然语言理解、推理与生成的部分。</p>
+    </article>
+  </div>
+  <p class="source-note">
+    这是 Hybrid 分工原则，不表示每个 Context Module 都完全由规则或完全由 LLM
+    实现。
+  </p>
+</section>
+<WorkflowDiagram
+  title="持续运行的反馈循环"
+  steps={[
+    "Interaction",
+    "Context Update",
+    "Reasoning",
+    "Dialogue / Action",
+    "New Experience / World Change",
+    "Context Update",
+  ]}
+/>
+<p class="source-note">
+  运行循环示意：根据项目说明整理，与上方原始实现架构分开展示。
+</p>
+<details class="disclosure">
+  <summary>对照原始 Architecture Diagram</summary>
+  <EvidenceFigure asset="npc-original" />
+</details>

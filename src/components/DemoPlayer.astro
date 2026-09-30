@@ -1,0 +1,88 @@
+---
+import { getMedia } from "../data/media";
+interface Props {
+  asset: string;
+}
+const { asset } = Astro.props;
+const m = getMedia(asset);
+const time = `${Math.floor((m.duration ?? 0) / 60)}:${String(Math.floor((m.duration ?? 0) % 60)).padStart(2, "0")}`;
+---
+
+<figure class="demo-player" data-video-src={m.src}>
+  <div class="video-stage" style={`aspect-ratio:${m.width}/${m.height}`}>
+    <video
+      controls
+      playsinline
+      preload="none"
+      poster={m.poster}
+      width={m.width}
+      height={m.height}
+      aria-label={m.alt}
+      hidden
+    >
+      {m.captions && (
+        <track
+          kind="subtitles"
+          src={m.captions.src}
+          srclang={m.captions.language}
+          label={m.captions.label}
+          default
+        />
+      )}
+    </video>
+    <a href={m.src} class="video-launch" aria-label={`播放${m.alt}，${time}`}>
+      <img
+        src={m.poster}
+        width={m.width}
+        height={m.height}
+        alt={m.alt}
+        loading="lazy"
+      />
+      <span class="play-label">
+        <span aria-hidden="true">▶</span> 播放演示 <span>{time}</span>
+      </span>
+    </a>
+  </div>
+  <figcaption>
+    <span class="evidence-label">真实 Demo</span>
+    {m.caption}
+    {m.captions && (
+      <span class="caption-note">
+        附中文讲解与画面摘要字幕（非逐字稿），可在播放控件中切换。
+      </span>
+    )}
+  </figcaption>
+  <p class="video-fallback" hidden>
+    无法播放？<a href={m.src}>直接打开视频</a>，或稍后重试。
+  </p>
+  <noscript>
+    <p>
+      <a href={m.src}>直接打开视频：{m.alt}</a>
+    </p>
+  </noscript>
+</figure>
+<script>
+  document.querySelectorAll<HTMLElement>(".demo-player").forEach((root) => {
+    const link = root.querySelector<HTMLAnchorElement>(".video-launch")!;
+    const video = root.querySelector("video")!;
+    const fallback = root.querySelector<HTMLElement>(".video-fallback")!;
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      video.hidden = false;
+      link.hidden = true;
+      if (!video.src) video.src = root.dataset.videoSrc!;
+      video.focus();
+      video.play().catch(() => {
+        fallback.hidden = false;
+      });
+    });
+    video.addEventListener("play", () => {
+      document.querySelectorAll("video").forEach((other) => {
+        if (other !== video) other.pause();
+      });
+    });
+    video.addEventListener("error", () => {
+      fallback.hidden = false;
+    });
+  });
+</script>

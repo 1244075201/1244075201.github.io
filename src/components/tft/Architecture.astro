@@ -1,0 +1,60 @@
+---
+import { routing } from "../../data/tft";
+---
+
+<section class="routing-visual visual-section">
+  <p class="eyebrow">架构示意 / HYBRID ROUTING</p>
+  <h2>确定性事实与策略推理，走不同路径</h2>
+  <div class="scenario-controls" hidden>
+    {routing.map((r) => (
+      <button type="button" data-route={r.id} aria-pressed="false">
+        “{r.example}”
+      </button>
+    ))}
+    <button type="button" data-route="all" aria-pressed="true">
+      查看完整架构
+    </button>
+  </div>
+  <div class="routing-trunk">
+    <div class="flow-node">User Query</div>
+    <div class="flow-node">AgentService</div>
+    <div class="flow-node">Intent / Routing</div>
+  </div>
+  <div class="routing-branches">
+    {routing.map((r) => (
+      <article class="route-branch" data-branch={r.id}>
+        <p class="eyebrow">{r.label}</p>
+        <h3>{r.calls}</h3>
+        <p>“{r.example}”</p>
+        <ol>
+          {r.steps.map((step) => (
+            <li>{step}</li>
+          ))}
+        </ol>
+      </article>
+    ))}
+  </div>
+  <p class="source-note">
+    0 / 1 次 LLM
+    调用是此架构两条设计路径的说明，不代表所有输入的实际运行保证。交互仅高亮路径，不执行真实查询。
+  </p>
+</section>
+<script>
+  document.querySelectorAll<HTMLElement>(".routing-visual").forEach((root) => {
+    root.querySelector<HTMLElement>(".scenario-controls")!.hidden = false;
+    const buttons = root.querySelectorAll<HTMLButtonElement>("[data-route]");
+    buttons.forEach((b) =>
+      b.addEventListener("click", () => {
+        buttons.forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+        root
+          .querySelectorAll<HTMLElement>("[data-branch]")
+          .forEach((p) =>
+            p.classList.toggle(
+              "highlighted",
+              p.dataset.branch === b.dataset.route,
+            ),
+          );
+      }),
+    );
+  });
+</script>

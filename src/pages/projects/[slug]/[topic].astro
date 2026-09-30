@@ -1,0 +1,32 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import { getTopics } from "../../../lib/topics";
+import { getProjects } from "../../../lib/projects";
+import ProjectLayout from "../../../layouts/ProjectLayout.astro";
+import TopicVisualization from "../../../components/TopicVisualization.astro";
+import TopicReflection from "../../../components/TopicReflection.astro";
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return (await getTopics()).map((topic) => ({
+    params: { slug: topic.data.project, topic: topic.data.slug },
+    props: {
+      topic,
+      project: projects.find((p) => p.data.slug === topic.data.project)!,
+    },
+  }));
+}
+interface Props {
+  project: CollectionEntry<"projects">;
+  topic: CollectionEntry<"topics">;
+}
+const { project, topic } = Astro.props;
+const { Content } = await render(topic);
+---
+
+<ProjectLayout project={project} topic={topic}>
+  <article class="prose topic-intro">
+    <Content />
+  </article>
+  <TopicVisualization kind={topic.data.visualization} />
+  <TopicReflection kind={topic.data.visualization} />
+</ProjectLayout>

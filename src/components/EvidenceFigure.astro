@@ -1,0 +1,76 @@
+---
+import { getMedia } from "../data/media";
+interface Props {
+  asset: string;
+  priority?: boolean;
+}
+const { asset, priority = false } = Astro.props;
+const m = getMedia(asset);
+const id = `figure-${asset}`;
+---
+
+<figure class="evidence-figure">
+  <a
+    href={m.src}
+    class="image-open"
+    data-dialog={id}
+    aria-label={`放大查看：${m.alt}`}
+  >
+    <img
+      src={m.src}
+      srcset={m.srcset}
+      sizes="(max-width: 640px) 100vw, 1120px"
+      width={m.width}
+      height={m.height}
+      alt={m.alt}
+      loading={priority ? "eager" : "lazy"}
+      fetchpriority={priority ? "high" : "auto"}
+    />
+    <span class="image-zoom" aria-hidden="true">
+      放大查看 ↗
+    </span>
+  </a>
+  <figcaption>
+    <span class="evidence-label">
+      {m.redacted ? "真实界面 · 已脱敏" : "真实素材"}
+    </span>
+    {m.caption}
+  </figcaption>
+</figure>
+<dialog id={id} class="image-dialog" aria-label={m.alt}>
+  <form method="dialog">
+    <button class="dialog-close" aria-label="关闭图片">
+      关闭 ×
+    </button>
+  </form>
+  <img
+    src={m.src}
+    width={m.width}
+    height={m.height}
+    alt={m.alt}
+    loading="lazy"
+  />
+  <p>{m.caption}</p>
+  <p>
+    <a class="text-link" href={m.src} target="_blank" rel="noopener">
+      打开原尺寸图片 ↗
+    </a>
+  </p>
+</dialog>
+<script>
+  document
+    .querySelectorAll<HTMLAnchorElement>("[data-dialog]")
+    .forEach((link) => {
+      const dialog = document.getElementById(
+        link.dataset.dialog!,
+      ) as HTMLDialogElement;
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        dialog.showModal();
+      });
+      dialog.addEventListener("close", () => link.focus());
+      dialog.addEventListener("click", (e) => {
+        if (e.target === dialog) dialog.close();
+      });
+    });
+</script>
